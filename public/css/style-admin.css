@@ -1,0 +1,448 @@
+*{box-sizing:border-box;font-family:Arial, Helvetica, sans-serif}
+body{margin:0;background:#f3f6ff;color:#1b1b1b}
+.wadah{display:flex;min-height:100vh}
+
+/* Sidebar */
+.sidebar{
+    width:260px;background:#ffffff;border-right:1px solid #e8eefc;
+    padding:18px;display:flex;flex-direction:column;gap:14px
+}
+
+/* ✅ DIUBAH: gap biar teks ga mepet */
+.logo{display:flex;gap:14px;align-items:center;text-decoration:none}
+
+/* ✅ DIUBAH: ukuran logo biar gede + overflow hidden */
+.logo-bulat{
+    width:72px;height:72px;border-radius:18px;
+    background:#2f6dff;color:#fff;display:flex;align-items:center;justify-content:center;
+    font-weight:700;
+    overflow:hidden
+}
+
+/* ✅ DITAMBAH: biar foto nutup penuh */
+.logo-bulat img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block
+}
+
+.logo-judul{font-weight:800;color:#2f6dff}
+.logo-sub{font-size:12px;color:#778}
+
+.menu{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.menu-item{
+    padding:12px 14px;border-radius:14px;text-decoration:none;color:#1b1b1b;
+}
+.menu-item:hover{background:#eef4ff}
+.menu-item.aktif{background:#2f6dff;color:#fff}
+
+.logout-form{margin-top:auto}
+.btn-logout{
+    width:100%;padding:12px;border-radius:18px;border:1px solid #2f6dff;
+    background:#fff;color:#2f6dff;font-weight:700;cursor:pointer
+}
+
+/* Konten */
+.konten{flex:1;padding:22px}
+.alert-sukses{background:#eafff1;border:1px solid #b9f5cf;padding:10px;border-radius:12px;margin-bottom:10px}
+.alert-gagal{background:#ffecec;border:1px solid #ffb5b5;padding:10px;border-radius:12px;margin-bottom:10px}
+.judul-halaman{font-size:34px;font-weight:900;color:#1e4fff;margin-bottom:14px}
+
+.baris-kartu{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px
+}
+.kartu-info{
+    background:#fff;border-radius:18px;padding:16px;border:1px solid #e8eefc;
+    box-shadow:0 6px 18px rgba(18,38,63,.04);
+}
+.kartu-judul{color:#667;font-size:14px;margin-bottom:6px}
+.kartu-angka{font-size:30px;font-weight:900;color:#1e4fff}
+
+.kartu-grafik{
+    background:#fff;border-radius:18px;padding:16px;border:1px solid #e8eefc
+}
+.judul-seksi{font-weight:900;margin-bottom:10px;color:#223}
+
+.baris-atas{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.btn-primary{
+    background:#2f6dff;color:#fff;border:none;border-radius:14px;
+    padding:12px 16px;text-decoration:none;font-weight:800;cursor:pointer
+}
+
+/* Mobil grid */
+.grid-mobil{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.kartu-mobil{
+    background:#fff;border:1px solid #e8eefc;border-radius:22px;overflow:hidden;
+    box-shadow:0 8px 20px rgba(18,38,63,.05)
+}
+.gambar-mobil{background:#f1f4ff;height:190px;display:flex;align-items:center;justify-content:center}
+.gambar-mobil img{width:100%;height:190px;object-fit:cover}
+.placeholder-gambar{color:#778}
+
+.isi-mobil{padding:14px}
+.nama-mobil{font-size:22px;font-weight:900;color:#1e4fff;margin-bottom:6px}
+.teks-kecil{font-size:14px;color:#334;margin-top:4px}
+
+.kotak-harga{
+    margin-top:12px;background:#f3f7ff;border:1px solid #e1eaff;
+    padding:12px;border-radius:14px
+}
+.kotak-harga ul{margin:8px 0 0 16px;padding:0}
+.kotak-harga li{margin:4px 0}
+
+.baris-tombol{display:flex;gap:10px;margin-top:12px}
+.btn-book{
+    flex:1;text-align:center;background:#2f6dff;color:#fff;border-radius:14px;
+    padding:12px;text-decoration:none;font-weight:900
+}
+.btn-kecil{
+    padding:10px 12px;border-radius:14px;border:none;background:#4c88ff;color:#fff;
+    font-weight:800;cursor:pointer;text-decoration:none;display:inline-block
+}
+.btn-hapus{
+    padding:10px 12px;border-radius:14px;border:none;background:#1c2c5a;color:#fff;
+    font-weight:800;cursor:pointer
+}
+.badge-tersedia{
+    margin-top:12px;padding:8px 12px;border-radius:999px;font-weight:800;
+    display:inline-block;font-size:12px
+}
+.badge-tersedia.hijau{background:#eafff1;color:#138f44;border:1px solid #b9f5cf}
+.badge-tersedia.merah{background:#ffecec;color:#b30000;border:1px solid #ffb5b5}
+
+/* Form */
+.kartu-form{background:#fff;border:1px solid #e8eefc;border-radius:18px;padding:16px}
+.kartu-form label{display:block;margin-top:10px;font-weight:800;color:#334}
+.kartu-form input,.kartu-form select{
+    width:100%;padding:12px;border-radius:14px;border:1px solid #e1eaff;margin-top:6px;
+    background:#fbfcff
+}
+.grid-form-2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(max-width:1100px){
+    .baris-kartu{grid-template-columns:repeat(2,1fr)}
+    .grid-mobil{grid-template-columns:repeat(2,1fr)}
+    .grid-form-2{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+    .sidebar{display:none}
+    .grid-mobil{grid-template-columns:1fr}
+}
+
+/* Table */
+.tabel{width:100%;border-collapse:collapse}
+.tabel th,.tabel td{border-bottom:1px solid #eef2ff;padding:12px;text-align:left;font-size:14px}
+.tabel th{color:#334}
+.aksi{display:flex;gap:8px;flex-wrap:wrap}
+.tabel-responsive{overflow:auto}
+
+/* Status badge */
+.badge-status{
+    display:inline-block;padding:6px 12px;border-radius:999px;font-weight:900;font-size:12px
+}
+.badge-status.booking{background:#fff4d6;border:1px solid #ffe09c;color:#8a5a00}
+.badge-status.diambil{background:#e8f2ff;border:1px solid #bcd7ff;color:#003a99}
+.badge-status.selesai{background:#eafff1;border:1px solid #b9f5cf;color:#138f44}
+
+/* Modal (FIX) */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  padding:16px;
+  z-index:9999;
+
+  /* default */
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+.modal.tampil{
+  display:flex;
+}
+.modal-konten{
+  background:#fff;
+  border-radius:24px;
+  width:980px;        /* biar luas seperti contoh kamu */
+  max-width:95vw;
+  padding:22px;
+  box-shadow:0 18px 60px rgba(0,0,0,.30);
+}
+.modal-judul{
+  font-weight:900;
+  font-size:30px;
+  margin-bottom:14px;
+}
+.modal-baris{
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+  margin-top:12px;
+}
+
+/* grid modal biar input ga berantakan */
+.form-modal-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px 16px;
+}
+.form-modal-grid .field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.form-modal-grid label{
+  font-weight:900;
+  font-size:14px;
+  color:#1d2b4a;
+}
+.form-modal-grid input,
+.form-modal-grid select,
+.form-modal-grid textarea{
+  width:100%;
+  padding:12px 12px;
+  border-radius:14px;
+  border:1px solid #dfe8ff;
+  background:#fbfcff;
+  box-sizing:border-box;
+  outline:none;
+}
+.form-modal-grid input:focus,
+.form-modal-grid select:focus,
+.form-modal-grid textarea:focus{
+  border-color:#2f6dff;
+  box-shadow:0 0 0 3px rgba(47,109,255,.15);
+}
+.modal-aksi{
+  grid-column:1/-1;
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:6px;
+}
+@media(max-width:720px){
+  .form-modal-grid{grid-template-columns:1fr;}
+}
+
+/* ===== Login admin (rapi) ===== */
+.halaman-login{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f3f6ff;
+    padding:20px;
+}
+
+.kartu-login-bagus{
+    width:520px;
+    max-width:100%;
+    background:#fff;
+    border:1px solid #e8eefc;
+    border-radius:24px;
+    padding:26px;
+    box-shadow:0 10px 30px rgba(18,38,63,.08);
+}
+
+.judul-login{
+    font-size:40px;
+    font-weight:900;
+    color:#1e4fff;
+    margin-bottom:6px;
+}
+
+.sub-login{
+    font-size:14px;
+    color:#667;
+    margin-bottom:18px;
+}
+
+.form-login{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.form-login label{
+    font-weight:800;
+    color:#334;
+    margin:0 0 6px 0;
+    display:block;
+}
+
+.form-login input{
+    width:100%;
+    padding:12px 14px;
+    border-radius:14px;
+    border:1px solid #dfe8ff;
+    background:#fbfcff;
+    outline:none;
+    font-size:14px;
+    box-sizing:border-box;
+}
+
+.form-login input:focus{
+    border-color:#2f6dff;
+    box-shadow:0 0 0 3px rgba(47,109,255,.15);
+}
+
+.btn-login-full{
+    width:100%;
+    padding:12px 16px;
+    border-radius:14px;
+    border:none;
+    background:#2f6dff;
+    color:#fff;
+    font-weight:900;
+    cursor:pointer;
+    margin-top:6px;
+}
+
+.alert-gagal{
+    background:#ffe7e7;
+    border:1px solid #ffb3b3;
+    color:#8a1f1f;
+    padding:10px 12px;
+    border-radius:12px;
+    font-size:13px;
+}
+/* Select biar rapi */
+select{
+  width:100%;
+  padding:12px 12px;
+  border-radius:12px;
+  border:1px solid #dfe8ff;
+  font-weight:700;
+  background:#fff;
+  box-sizing:border-box;
+}
+
+.select-status{
+  width:auto;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid #dfe8ff;
+  font-weight:900;
+  background:#fff;
+  cursor:pointer;
+}
+
+/* Alert sukses */
+.alert-sukses{
+  background:#d9fbe3;
+  border:1px solid #83e3a1;
+  padding:10px 14px;
+  border-radius:14px;
+  font-weight:800;
+  margin-bottom:12px;
+}
+
+/* Badge keterangan penyewa */
+.badge-ket{
+  padding:6px 12px;
+  border-radius:999px;
+  font-weight:900;
+  display:inline-block;
+}
+.badge-ket.lancar{
+  background:#dff6e6;
+  border:1px solid #7ce0a0;
+  color:#137a33;
+}
+.badge-ket.ruwet{
+  background:#ffe6e6;
+  border:1px solid #ff9b9b;
+  color:#b30000;
+}
+.badge-ket.suka-bon{
+  background:#fff3d9;
+  border:1px solid #ffd17a;
+  color:#8a5a00;
+}
+
+/* modal satu kolom (kalau dipakai) */
+.form-modal-satu{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.form-modal-satu .field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.form-modal-satu label{
+  font-weight:900;
+}
+.form-modal-satu select{
+  padding:12px;
+  border-radius:14px;
+  border:1px solid #dfe8ff;
+  width:100%;
+}
+/* =========================
+   FIX TOMBOL MODAL PENYEWA
+   ========================= */
+
+/* semua tombol di dalam modal */
+.modal button{
+  padding:12px 18px;
+  border-radius:14px;
+  border:none;
+  font-weight:900;
+  cursor:pointer;
+}
+
+/* tombol SIMPAN (submit terakhir di modal) */
+.modal form button[type="submit"]{
+  background:#2f6dff;
+  color:#fff;
+}
+
+/* tombol TUTUP */
+.modal button[type="button"]{
+  background:#1c2c5a;
+  color:#fff;
+}
+
+/* hover biar hidup */
+.modal form button[type="submit"]:hover{
+  background:#1e4fff;
+}
+.modal button[type="button"]:hover{
+  background:#0f1f44;
+}
+
+/* Laporan: 2 kotak berdampingan */
+.grid-laporan-2{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+@media(max-width:1100px){
+  .grid-laporan-2{ grid-template-columns: 1fr; }
+}
+/* Rapihin baris checkbox "Ingat saya" biar sejajar dan normal */
+.baris-ingat{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.baris-ingat input[type="checkbox"]{
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.label-ingat{
+    margin: 0;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+}
