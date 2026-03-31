@@ -21,6 +21,7 @@ class BookingController extends Controller
             'tanggal_booking' => 'required|date',
             'biaya_sewa' => 'required|numeric',
             'keterangan' => 'required|in:antar rental,pribadi',
+            'tujuan' => 'nullable|string|max:255', // <-- tambah ini
         ], [
             'nama_customer.required' => 'Nama customer wajib diisi',
             'no_hp_customer.required' => 'No HP customer wajib diisi',
@@ -45,6 +46,7 @@ class BookingController extends Controller
 
             'biaya_sewa' => $request->biaya_sewa,
             'keterangan' => $request->keterangan,
+            'tujuan' => $request->tujuan, // <-- tambah ini
             'status' => 'booking',
         ]);
 
@@ -54,4 +56,3 @@ class BookingController extends Controller
         return redirect()->route('transaksi.index')->with('sukses', 'Booking berhasil disimpan dan masuk transaksi');
     }
 }
-

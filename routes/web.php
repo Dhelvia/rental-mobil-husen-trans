@@ -9,6 +9,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\PenyewaController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\KasLakaController;
 
 Route::get('/', fn() => redirect()->route('login'));
 
@@ -57,4 +58,9 @@ Route::middleware('admin')->group(function () {
     // TAMBAH: edit/hapus pengeluaran
     Route::post('/pengeluaran/{pengeluaran}/update', [LaporanController::class, 'updatePengeluaran'])->name('pengeluaran.update');
     Route::post('/pengeluaran/{pengeluaran}/hapus', [LaporanController::class, 'hapusPengeluaran'])->name('pengeluaran.hapus');
+
+    Route::get('/kas-laka', [KasLakaController::class, 'index'])->name('kaslaka.index');
+    Route::post('/kas-laka', [KasLakaController::class, 'store'])->name('kaslaka.store');
+    Route::post('/kas-laka/{kasLaka}/update', [KasLakaController::class, 'update'])->name('kaslaka.update');
+    Route::post('/kas-laka/{kasLaka}/hapus', [KasLakaController::class, 'destroy'])->name('kaslaka.hapus');
 });

@@ -64,6 +64,28 @@ document.addEventListener('click', function(e){
     return;
   }
 
+  // ===== EDIT TRANSAKSI (MODAL) =====
+  // tombol di blade: class="btn-kecil btn-edit-modal"
+  if(e.target.classList.contains('btn-edit-modal')){
+    const id = e.target.dataset.id;
+
+    document.getElementById('e_no_ktp').value = e.target.dataset.no_ktp || '';
+    document.getElementById('e_alamat').value = e.target.dataset.alamat || '';
+    document.getElementById('e_plat_motor').value = e.target.dataset.plat_motor || '';
+    document.getElementById('e_merk_motor').value = e.target.dataset.merk_motor || '';
+    document.getElementById('e_tujuan').value = e.target.dataset.tujuan || '';
+    document.getElementById('e_durasi').value = e.target.dataset.durasi || '';
+    document.getElementById('e_jam').value = e.target.dataset.jam || '';
+    document.getElementById('e_tanggal').value = e.target.dataset.tanggal || '';
+    document.getElementById('e_biaya').value = e.target.dataset.biaya || '0';
+
+    const form = document.getElementById('formEdit');
+    if(form) form.action = '/transaksi/' + id + '/update-modal';
+
+    bukaModal('modalEdit');
+    return;
+  }
+
   // ===== KLIK BACKGROUND MODAL = TUTUP =====
   if(e.target.classList.contains('modal')){
     if(e.target.id === 'modalEditPenyewa') tutupModal('modalEditPenyewa');

@@ -10,10 +10,10 @@ class LaporanController extends Controller
 {
     public function index()
     {
-        // WAJIB ADA ini, biar $laporans kepake di blade kamu
+        // biar $laporans kepake di blade kamu
         $laporans = Laporan::with('pengeluarans')->latest()->get();
 
-        // opsional (kalau kamu mau akses list pengeluaran langsung)
+        //akses list pengeluaran langsun
         $pengeluarans = Pengeluaran::with('laporan')->latest()->get();
 
         $totalPemasukan = (int) Laporan::sum('total_pemasukan');
@@ -23,6 +23,42 @@ class LaporanController extends Controller
         return view('laporan.index', compact(
             'laporans', 'pengeluarans', 'totalPemasukan', 'totalPengeluaran', 'penghasilanAkhir'
         ));
+    }
+
+    // =========================
+    // UPDATE PEMASUKAN (LAPORAN)
+    // route: laporan.update
+    // =========================
+    public function update(Request $request, Laporan $laporan)
+    {
+        $request->validate([
+            'nama_customer'    => 'required|string|max:255',
+            'tanggal_ambil'    => 'nullable|date',
+            'durasi_sewa'      => 'nullable|string|max:100',
+            'total_pemasukan'  => 'required|numeric|min:0',
+        ], [
+            'nama_customer.required' => 'Nama customer wajib diisi',
+            'total_pemasukan.required' => 'Total pemasukan wajib diisi',
+        ]);
+
+        $laporan->nama_customer = $request->nama_customer;
+        $laporan->tanggal_ambil = $request->tanggal_ambil;
+        $laporan->durasi_sewa = $request->durasi_sewa;
+        $laporan->total_pemasukan = $request->total_pemasukan;
+        $laporan->save();
+
+        return back()->with('sukses', 'Pemasukan berhasil diperbarui');
+    }
+    // HAPUS PEMASUKAN (LAPORAN)
+    // route: laporan.hapus
+    public function hapus(Laporan $laporan)
+    {
+        // hapus dulu semua pengeluaran milik laporan ini (biar aman kalau ada FK)
+        Pengeluaran::where('laporan_id', $laporan->id)->delete();
+
+        $laporan->delete();
+
+        return back()->with('sukses', 'Laporan berhasil dihapus');
     }
 
     public function tambahPengeluaran(Request $request, Laporan $laporan)
@@ -43,12 +79,6 @@ class LaporanController extends Controller
         return back()->with('sukses', 'Pengeluaran berhasil ditambahkan');
     }
 
-    // =========
-    // Catatan: route kamu sudah ada laporan.update & laporan.hapus,
-    // tapi kamu belum kirim function update() & hapus() untuk Laporan.
-    // Aku gak nambah supaya gak ganggu yang lain.
-    // =========
-
     // EDIT PENGELUARAN
     public function updatePengeluaran(Request $request, Pengeluaran $pengeluaran)
     {
@@ -58,8 +88,7 @@ class LaporanController extends Controller
             'total_pengeluaran' => 'required|numeric',
         ]);
 
-        // Karena tabel pengeluaran kamu kemungkinan TIDAK punya kolom "tanggal",
-        // kita simpan tanggal manual ke created_at biar tampilnya berubah di tabel.
+        // simpan tanggal manual ke created_at biar tampilnya berubah di tabel.
         $pengeluaran->jenis_pengeluaran = $request->jenis_pengeluaran;
         $pengeluaran->total_pengeluaran = $request->total_pengeluaran;
         $pengeluaran->created_at = $request->tanggal . ' 00:00:00';

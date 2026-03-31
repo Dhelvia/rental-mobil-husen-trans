@@ -26,7 +26,6 @@
             $tanggalHariIni = now()->format('d-m-Y');
         @endphp
 
-        {{-- LOGO SIDEBAR (MODEL DASHBOARD, FONT DIKECILIN + TANGGAL DI BAWAH) --}}
         <a class="logo" href="{{ route('admin.profil') }}" style="display:block;text-decoration:none;">
             <div style="
                 background:#2f6dff;
@@ -57,17 +56,14 @@
                 </div>
 
                 <div style="line-height:1.15;">
-                    {{-- NAMA (dikecilin) --}}
                     <div style="font-weight:900;color:#ffffff;font-size:14px;letter-spacing:.2px;">
                         {{ strtoupper($namaAdmin) }}
                     </div>
 
-                    {{-- ADMIN PANEL --}}
                     <div style="font-size:12px;color:#e6eeff;margin-top:4px;">
                         Admin Panel
                     </div>
 
-                    {{-- TANGGAL DI BAWAH ADMIN PANEL --}}
                     <div style="font-size:12px;color:#e6eeff;margin-top:2px;">
                         {{ $tanggalHariIni }}
                     </div>
@@ -81,6 +77,9 @@
             <a class="menu-item {{ request()->is('transaksi*') ? 'aktif' : '' }}" href="{{ route('transaksi.index') }}">Transaksi</a>
             <a class="menu-item {{ request()->is('data-penyewa*') ? 'aktif' : '' }}" href="{{ route('penyewa.index') }}">Data Penyewa</a>
             <a class="menu-item {{ request()->is('laporan*') ? 'aktif' : '' }}" href="{{ route('laporan.index') }}">Laporan</a>
+
+            {{-- ✅ MENU BARU --}}
+            <a class="menu-item {{ request()->is('kas-laka*') ? 'aktif' : '' }}" href="{{ route('kaslaka.index') }}">Kas Laka</a>
         </nav>
 
         <form action="{{ route('logout') }}" method="POST" class="logout-form">

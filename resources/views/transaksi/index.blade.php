@@ -12,7 +12,7 @@
                 <tr>
                     <th>Mobil</th>
                     <th>Customer</th>
-                    <th>Status</th>
+                    <th>Tujuan / Jaminan</th>
                     <th>Tanggal Booking</th>
                     <th>Tanggal Ambil</th>
                     <th>Biaya</th>
@@ -26,18 +26,43 @@
                             <b>{{ strtoupper($t->mobil->nama_mobil) }}</b><br>
                             <span class="teks-kecil">{{ $t->mobil->plat }}</span>
                         </td>
+
                         <td>
                             {{ $t->nama_customer }}<br>
                             <span class="teks-kecil">{{ $t->no_hp_customer }}</span>
                         </td>
-                        <td>
-                            <span class="badge-status {{ $t->status }}">{{ strtoupper($t->status) }}</span>
-                        </td>
-                        <td>{{ $t->tanggal_booking ?? '-' }}</td>
-                        <td>{{ $t->tanggal_ambil ?? '-' }} {{ $t->jam_ambil ? '('.$t->jam_ambil.')' : '' }}</td>
-                        <td>Rp {{ number_format($t->biaya_sewa,0,',','.') }}</td>
-                        <td class="aksi">
 
+                        {{-- GANTI KOLOM STATUS JADI TUJUAN + MERK MOTOR --}}
+                        <td>
+                            <div style="font-weight:600;">
+                                Tujuan: {{ $t->tujuan ?? '-' }}
+                            </div>
+                            <div class="teks-kecil" style="color:#666;">
+                                Merk Motor: {{ $t->merk_motor ?? '-' }}
+                            </div>
+                        </td>
+
+                        <td>
+                            {{ $t->tanggal_booking 
+                            ? \Carbon\Carbon::parse($t->tanggal_booking)->format('d-m-Y') 
+                            : '-' }}
+                        </td>
+
+                        <td>
+    @if($t->tanggal_ambil)
+        {{ \Carbon\Carbon::parse($t->tanggal_ambil)->format('d-m-Y') }}
+        @if($t->jam_ambil)
+            ({{ \Carbon\Carbon::parse($t->jam_ambil)->format('H.i') }})
+        @endif
+    @else
+        -
+    @endif
+</td>
+
+
+                        <td>Rp {{ number_format($t->biaya_sewa,0,',','.') }}</td>
+
+                        <td class="aksi">
                             {{-- DROPDOWN STATUS --}}
                             <form method="POST" action="{{ route('transaksi.status', $t->id) }}" style="display:inline-block;">
                                 @csrf
@@ -56,6 +81,7 @@
                                     data-alamat="{{ $t->alamat }}"
                                     data-plat_motor="{{ $t->plat_motor_jaminan }}"
                                     data-merk_motor="{{ $t->merk_motor }}"
+                                    data-tujuan="{{ $t->tujuan }}"
                                     data-durasi="{{ $t->durasi_sewa }}"
                                     data-jam="{{ $t->jam_ambil }}"
                                     data-tanggal="{{ $t->tanggal_ambil }}"
@@ -104,6 +130,11 @@
                 <div class="field">
                     <label>Merk Motor</label>
                     <input type="text" name="merk_motor" id="e_merk_motor">
+                </div>
+
+                <div class="field">
+                    <label>Tujuan</label>
+                    <input type="text" name="tujuan" id="e_tujuan">
                 </div>
 
                 <div class="field">

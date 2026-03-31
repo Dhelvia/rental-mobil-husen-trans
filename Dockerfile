@@ -1,34 +1,39 @@
-# Dockerfile (FIX) - Laravel on Railway
-FROM php:8.2-cli
+FROM php:8.2-apache
 
-# Install system dependencies + PHP extensions needed for Laravel/MySQL
+# Install dependencies
 RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    libzip-dev \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
-    curl \
-  && docker-php-ext-install pdo pdo_mysql zip \
-  && rm -rf /var/lib/apt/lists/*
+    zip \
+    unzip \
+    git \
+    curl
+
+# Enable Apache mod_rewrite
+RUN a2enmod rewrite
+
+# Install PHP extensions
+RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Copy project
+COPY . .
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Set workdir
-WORKDIR /app
+# Install Laravel dependencies
+RUN composer install --no-dev --optimize-autoloader
 
-# Copy project files
-COPY . .
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html/storage \
+    && chmod -R 755 /var/www/html/bootstrap/cache
 
-# Install PHP deps (production)
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+# Apache config
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
-# IMPORTANT:
-# - Jangan jalankan "php artisan key:generate" di sini
-#   karena .env tidak ada saat build di Railway.
-# - APP_KEY akan kamu set dari Railway Variables.
-
-# Railway menyediakan PORT via env, jadi pakai $PORT
-CMD php artisan serve --host=0.0.0.0 --port ${PORT:-8080}
+EXPOSE 80

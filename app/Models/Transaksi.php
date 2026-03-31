@@ -14,7 +14,9 @@ class Transaksi extends Model
         'no_ktp','alamat','plat_motor_jaminan','merk_motor',
         'lama_sewa','tanggal_booking','tanggal_ambil','jam_ambil',
         'durasi_sewa','biaya_sewa',
-        'keterangan','status'
+        'keterangan',
+        'tujuan',      // <-- TAMBAH INI
+        'status'
     ];
 
     public function mobil()

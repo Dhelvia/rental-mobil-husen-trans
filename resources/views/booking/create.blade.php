@@ -75,6 +75,12 @@
                         <option value="pribadi" selected>pribadi</option>
                     </select>
                 </div>
+
+                {{-- TAMBAH TUJUAN --}}
+                <div style="grid-column: 1 / -1;">
+                    <label>Tujuan</label>
+                    <input type="text" name="tujuan" value="{{ old('tujuan') }}" placeholder="Contoh: Bandara / Dalam Kota / Luar Kota">
+                </div>
             </div>
 
             @if($errors->any())

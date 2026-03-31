@@ -9,7 +9,7 @@ class Admin extends Model
     protected $table = 'admins';
 
     protected $fillable = [
-        'nama','email','password','no_hp','foto'
+        'nama','email','password','foto'
     ];
 
     protected $hidden = ['password'];
