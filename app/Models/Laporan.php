@@ -9,7 +9,11 @@ class Laporan extends Model
     protected $table = 'laporans';
 
     protected $fillable = [
-        'nama_customer','tanggal_ambil','durasi_sewa','total_pemasukan'
+        'transaksi_id', // ✅ TAMBAHAN
+        'nama_customer',
+        'tanggal_ambil',
+        'durasi_sewa',
+        'total_pemasukan'
     ];
 
     public function pengeluarans()
@@ -27,5 +31,3 @@ class Laporan extends Model
         return (int) $this->total_pemasukan - (int) $this->total_pengeluaran;
     }
 }
-
-

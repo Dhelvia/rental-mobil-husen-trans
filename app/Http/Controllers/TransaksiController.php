@@ -15,54 +15,59 @@ class TransaksiController extends Controller
         return view('transaksi.index', compact('transaksis'));
     }
 
-    public function ubahStatus(\Illuminate\Http\Request $request, \App\Models\Transaksi $transaksi)
-{
-    $request->validate([
-        'status' => 'required|in:booking,diambil,selesai',
-    ]);
-
-    $statusBaru = $request->status;
-
-    $transaksi->status = $statusBaru;
-    $transaksi->save();
-
-    // kalau selesai: masukkan ke penyewa + laporan, mobil kembali tersedia
-    if ($statusBaru === 'selesai') {
-
-        Penyewa::create([
-            'nama' => $transaksi->nama_customer,
-            'no_ktp' => $transaksi->no_ktp,
-            'merk_motor' => $transaksi->merk_motor,
-            'plat_nomor' => $transaksi->plat_motor_jaminan,
-            'no_hp' => $transaksi->no_hp_customer,
-            'alamat' => $transaksi->alamat,
-            'keterangan' => 'lancar',
+    public function ubahStatus(Request $request, Transaksi $transaksi)
+    {
+        $request->validate([
+            'status' => 'required|in:booking,diambil,selesai',
         ]);
 
-        Laporan::create([
-            'nama_customer' => $transaksi->nama_customer,
-            'tanggal_ambil' => $transaksi->tanggal_ambil ?? now()->toDateString(),
-            'durasi_sewa' => $transaksi->durasi_sewa ?? $transaksi->lama_sewa,
-            'total_pemasukan' => $transaksi->biaya_sewa,
-        ]);
+        $statusBaru = $request->status;
 
-        // mobil kembali tersedia
-        $transaksi->mobil->update(['tersedia' => true]);
+        $transaksi->status = $statusBaru;
+        $transaksi->save();
+
+        if ($statusBaru === 'selesai') {
+
+            // ✅ CEK LAPORAN BIAR GA DOUBLE
+            $sudahAda = Laporan::where('transaksi_id', $transaksi->id)->exists();
+
+            if (!$sudahAda) {
+                Laporan::create([
+                    'transaksi_id' => $transaksi->id,
+                    'nama_customer' => $transaksi->nama_customer,
+                    'tanggal_ambil' => $transaksi->tanggal_ambil ?? now()->toDateString(),
+                    'durasi_sewa' => $transaksi->durasi_sewa ?? $transaksi->lama_sewa,
+                    'total_pemasukan' => $transaksi->biaya_sewa,
+                ]);
+            }
+
+            // ✅ FIX UTAMA: ANTI DUPLIKAT PENYEWA
+            Penyewa::firstOrCreate(
+                ['no_hp' => $transaksi->no_hp_customer], // kunci unik
+                [
+                    'nama' => $transaksi->nama_customer,
+                    'no_ktp' => $transaksi->no_ktp,
+                    'merk_motor' => $transaksi->merk_motor,
+                    'plat_nomor' => $transaksi->plat_motor_jaminan,
+                    'alamat' => $transaksi->alamat,
+                    'keterangan' => 'lancar',
+                ]
+            );
+
+            // ✅ mobil kembali tersedia
+            $transaksi->mobil->update(['tersedia' => true]);
+        }
+
+        return back()->with('sukses', 'Status transaksi diperbarui');
     }
-
-    return back()->with('sukses', 'Status transaksi diperbarui');
-}
-
 
     public function hapus(Transaksi $transaksi)
     {
-        // jika transaksi dihapus, mobil dibuat tersedia lagi
         $transaksi->mobil->update(['tersedia' => true]);
         $transaksi->delete();
         return back()->with('sukses', 'Transaksi berhasil dihapus');
     }
 
-    // update dari popup (jaminan, durasi, jam, tanggal ambil, harga)
     public function updateModal(Request $request, Transaksi $transaksi)
     {
         $request->validate([

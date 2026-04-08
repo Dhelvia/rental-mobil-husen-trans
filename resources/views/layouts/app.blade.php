@@ -27,46 +27,21 @@
         @endphp
 
         <a class="logo" href="{{ route('admin.profil') }}" style="display:block;text-decoration:none;">
-            <div style="
-                background:#2f6dff;
-                border-radius:18px;
-                padding:16px;
-                display:flex;
-                gap:12px;
-                align-items:center;
-            ">
-                <div style="
-                    width:60px;
-                    height:60px;
-                    border-radius:16px;
-                    background:#ffffff;
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    overflow:hidden;
-                    flex-shrink:0;
-                ">
+            <div style="background:#2f6dff;border-radius:18px;padding:16px;display:flex;gap:12px;align-items:center;">
+                <div style="width:60px;height:60px;border-radius:16px;background:#ffffff;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;">
                     @if($foto)
-                        <img src="{{ $foto }}" alt="Foto Admin" style="width:100%;height:100%;object-fit:cover;display:block;">
+                        <img src="{{ $foto }}" style="width:100%;height:100%;object-fit:cover;">
                     @else
-                        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-weight:900;color:#2f6dff;">
-                            RM
-                        </div>
+                        <div style="font-weight:900;color:#2f6dff;">RM</div>
                     @endif
                 </div>
 
-                <div style="line-height:1.15;">
-                    <div style="font-weight:900;color:#ffffff;font-size:14px;letter-spacing:.2px;">
+                <div>
+                    <div style="font-weight:900;color:#fff;font-size:14px;">
                         {{ strtoupper($namaAdmin) }}
                     </div>
-
-                    <div style="font-size:12px;color:#e6eeff;margin-top:4px;">
-                        Admin Panel
-                    </div>
-
-                    <div style="font-size:12px;color:#e6eeff;margin-top:2px;">
-                        {{ $tanggalHariIni }}
-                    </div>
+                    <div style="font-size:12px;color:#e6eeff;">Admin Panel</div>
+                    <div style="font-size:12px;color:#e6eeff;">{{ $tanggalHariIni }}</div>
                 </div>
             </div>
         </a>
@@ -77,8 +52,6 @@
             <a class="menu-item {{ request()->is('transaksi*') ? 'aktif' : '' }}" href="{{ route('transaksi.index') }}">Transaksi</a>
             <a class="menu-item {{ request()->is('data-penyewa*') ? 'aktif' : '' }}" href="{{ route('penyewa.index') }}">Data Penyewa</a>
             <a class="menu-item {{ request()->is('laporan*') ? 'aktif' : '' }}" href="{{ route('laporan.index') }}">Laporan</a>
-
-            {{-- ✅ MENU BARU --}}
             <a class="menu-item {{ request()->is('kas-laka*') ? 'aktif' : '' }}" href="{{ route('kaslaka.index') }}">Kas Laka</a>
         </nav>
 
@@ -89,6 +62,10 @@
     </aside>
 
     <main class="konten">
+
+        <!-- 🔥 BURGER BUTTON -->
+        <button id="btnSidebar" class="btn-burger">☰</button>
+
         @if(session('sukses'))
             <div class="alert-sukses">{{ session('sukses') }}</div>
         @endif
@@ -99,6 +76,13 @@
         @yield('isi')
     </main>
 </div>
+
+<!-- 🔥 SCRIPT BURGER -->
+<script>
+document.getElementById('btnSidebar').addEventListener('click', function(){
+    document.querySelector('.sidebar').classList.toggle('show');
+});
+</script>
 
 <script src="{{ asset('js/admin.js') }}"></script>
 @stack('skrip')

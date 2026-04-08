@@ -18,14 +18,20 @@ class BookingController extends Controller
         $request->validate([
             'nama_customer' => 'required',
             'no_hp_customer' => 'required',
-            'tanggal_booking' => 'required|date',
+
+            // ✅ FIX VALIDASI TANGGAL
+            'tanggal_booking' => 'required|date|after_or_equal:today',
+            'tanggal_ambil' => 'nullable|date|after_or_equal:tanggal_booking',
+
             'biaya_sewa' => 'required|numeric',
             'keterangan' => 'required|in:antar rental,pribadi',
-            'tujuan' => 'nullable|string|max:255', // <-- tambah ini
+            'tujuan' => 'nullable|string|max:255',
         ], [
             'nama_customer.required' => 'Nama customer wajib diisi',
             'no_hp_customer.required' => 'No HP customer wajib diisi',
             'tanggal_booking.required' => 'Tanggal booking wajib diisi',
+            'tanggal_booking.after_or_equal' => 'Tidak bisa pilih tanggal kemarin!',
+            'tanggal_ambil.after_or_equal' => 'Tanggal ambil tidak boleh sebelum tanggal booking!',
         ]);
 
         Transaksi::create([
@@ -46,12 +52,9 @@ class BookingController extends Controller
 
             'biaya_sewa' => $request->biaya_sewa,
             'keterangan' => $request->keterangan,
-            'tujuan' => $request->tujuan, // <-- tambah ini
+            'tujuan' => $request->tujuan,
             'status' => 'booking',
         ]);
-
-        // saat booking, mobil dianggap tidak tersedia
-        $mobil->update(['tersedia' => false]);
 
         return redirect()->route('transaksi.index')->with('sukses', 'Booking berhasil disimpan dan masuk transaksi');
     }

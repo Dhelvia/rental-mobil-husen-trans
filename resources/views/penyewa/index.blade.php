@@ -7,6 +7,18 @@
         <div class="alert-sukses">{{ session('sukses') }}</div>
     @endif
 
+    {{-- SEARCH --}}
+    <form method="GET" action="{{ route('penyewa.index') }}" style="margin-bottom:15px;">
+        <input type="text" name="keyword" placeholder="Cari nama penyewa..."
+               value="{{ $keyword ?? '' }}" style="padding:6px; width:250px;">
+        
+        <button type="submit" class="btn-primary">Cari</button>
+
+        @if(request('keyword'))
+            <a href="{{ route('penyewa.index') }}" class="btn-kecil">Reset</a>
+        @endif
+    </form>
+
     <div class="kartu-form">
         <div class="tabel-responsive">
             <table class="tabel">
@@ -25,7 +37,23 @@
                 <tbody>
                 @forelse($penyewas as $p)
                     <tr>
-                        <td>{{ strtoupper($p->nama) }}</td>
+                        {{-- 🔥 NAMA + HIGHLIGHT AMAN --}}
+                        <td>
+                            @php
+                                $nama = strtoupper($p->nama);
+                            @endphp
+
+                            @if(!empty($keyword))
+                                {!! str_ireplace(
+                                    strtoupper($keyword),
+                                    '<mark style="background-color: yellow;">'.strtoupper($keyword).'</mark>',
+                                    $nama
+                                ) !!}
+                            @else
+                                {{ $nama }}
+                            @endif
+                        </td>
+
                         <td>{{ $p->no_ktp ?? '-' }}</td>
                         <td>{{ $p->merk_motor ?? '-' }}</td>
                         <td>{{ $p->plat_nomor ?? '-' }}</td>
@@ -126,6 +154,7 @@
         </div>
     </div>
 
+    {{-- 🔥 FIX EVENT CLICK (ANTI ERROR) --}}
     <script>
       function bukaModal(id){ document.getElementById(id).classList.add('tampil'); }
       function tutupModal(id){ document.getElementById(id).classList.remove('tampil'); }
@@ -135,16 +164,18 @@
       });
 
       document.addEventListener('click', function(e){
-        if(e.target.classList.contains('btn-edit-penyewa')){
-          const id = e.target.dataset.id;
+        const btn = e.target.closest('.btn-edit-penyewa'); // 🔥 FIX UTAMA
 
-          document.getElementById('e_nama').value = e.target.dataset.nama || '';
-          document.getElementById('e_no_ktp').value = e.target.dataset.no_ktp || '';
-          document.getElementById('e_merk_motor').value = e.target.dataset.merk_motor || '';
-          document.getElementById('e_plat_nomor').value = e.target.dataset.plat_nomor || '';
-          document.getElementById('e_no_hp').value = e.target.dataset.no_hp || '';
-          document.getElementById('e_alamat').value = e.target.dataset.alamat || '';
-          document.getElementById('e_keterangan').value = e.target.dataset.keterangan || 'lancar';
+        if(btn){
+          const id = btn.dataset.id;
+
+          document.getElementById('e_nama').value = btn.dataset.nama || '';
+          document.getElementById('e_no_ktp').value = btn.dataset.no_ktp || '';
+          document.getElementById('e_merk_motor').value = btn.dataset.merk_motor || '';
+          document.getElementById('e_plat_nomor').value = btn.dataset.plat_nomor || '';
+          document.getElementById('e_no_hp').value = btn.dataset.no_hp || '';
+          document.getElementById('e_alamat').value = btn.dataset.alamat || '';
+          document.getElementById('e_keterangan').value = btn.dataset.keterangan || 'lancar';
 
           const form = document.getElementById('formEditPenyewa');
           form.action = '/data-penyewa/' + id + '/update';

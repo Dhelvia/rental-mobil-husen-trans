@@ -34,6 +34,7 @@
                     <label>Jaminan - Merk Motor</label>
                     <input type="text" name="merk_motor" value="{{ old('merk_motor') }}">
                 </div>
+
                 <div>
                     <label>Durasi Sewa</label>
                     <input type="text" name="durasi_sewa" value="{{ old('durasi_sewa') }}" placeholder="Contoh: 24 jam">
@@ -43,14 +44,21 @@
                     <label>Jam Mobil Diambil</label>
                     <input type="time" name="jam_ambil" value="{{ old('jam_ambil') }}">
                 </div>
+
+                {{-- ✅ FIX DI SINI --}}
                 <div>
                     <label>Tanggal Booking</label>
-                    <input type="date" name="tanggal_booking" value="{{ old('tanggal_booking', now()->toDateString()) }}">
+                    <input type="date" name="tanggal_booking" 
+                        value="{{ old('tanggal_booking', now()->toDateString()) }}" 
+                        min="{{ date('Y-m-d') }}">
                 </div>
 
+                {{-- ✅ FIX DI SINI --}}
                 <div>
                     <label>Tanggal Diambil</label>
-                    <input type="date" name="tanggal_ambil" value="{{ old('tanggal_ambil') }}">
+                    <input type="date" name="tanggal_ambil" 
+                        value="{{ old('tanggal_ambil') }}" 
+                        min="{{ date('Y-m-d') }}">
                 </div>
 
                 <div>

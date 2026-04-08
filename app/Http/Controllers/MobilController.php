@@ -9,7 +9,8 @@ class MobilController extends Controller
 {
     public function index()
     {
-        $mobils = Mobil::latest()->get();
+        // ✅ WAJIB: ambil relasi transaksi
+        $mobils = Mobil::with('transaksis')->latest()->get();
         return view('mobil.index', compact('mobils'));
     }
 
@@ -35,6 +36,7 @@ class MobilController extends Controller
         ]);
 
         $gambarPath = null;
+
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
             $namaFile = 'mobil_' . time() . '.' . $file->getClientOriginalExtension();
@@ -52,7 +54,7 @@ class MobilController extends Controller
             'harga_12_jam' => $request->harga_12_jam,
             'harga_24_jam' => $request->harga_24_jam,
             'harga_per_hari' => $request->harga_per_hari,
-            'tersedia' => true,
+            'tersedia' => true, // default
         ]);
 
         return redirect()->route('mobil.index')->with('sukses', 'Mobil berhasil ditambahkan');

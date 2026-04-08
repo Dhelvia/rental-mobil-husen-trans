@@ -42,13 +42,22 @@
 
                         <form method="POST" action="{{ route('mobil.destroy', $m->id) }}">
                             @csrf
+                            @method('DELETE')
                             <button class="btn-hapus" type="submit" onclick="return confirm('Yakin hapus mobil?')">Hapus</button>
                         </form>
                     </div>
 
-                    <div class="badge-tersedia {{ $m->tersedia ? 'hijau' : 'merah' }}">
-                        {{ $m->tersedia ? 'Tersedia' : 'Tidak Tersedia' }}
+                    {{-- 🔥 LOGIKA FINAL SESUAI KEBUTUHAN --}}
+                    @php
+                        $dipakai = $m->transaksis
+                            ->whereIn('status', ['booking','diambil'])
+                            ->count();
+                    @endphp
+
+                    <div class="badge-tersedia {{ $dipakai ? 'merah' : 'hijau' }}">
+                        {{ $dipakai ? 'Tidak Tersedia' : 'Tersedia' }}
                     </div>
+
                 </div>
             </div>
         @empty

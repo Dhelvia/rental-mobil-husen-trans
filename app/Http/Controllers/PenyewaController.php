@@ -7,15 +7,17 @@ use Illuminate\Http\Request;
 
 class PenyewaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $penyewas = Penyewa::latest()->get();
-        return view('penyewa.index', compact('penyewas'));
+        $keyword = $request->keyword;
+
+        $penyewas = Penyewa::when($keyword, function ($query, $keyword) {
+            return $query->where('nama', 'like', "%$keyword%");
+        })->latest()->get();
+
+        return view('penyewa.index', compact('penyewas', 'keyword'));
     }
 
-    /**
-     * Normalisasi nomor HP ke format 08xxxxxxxx
-     */
     private function normalizeHp(?string $hp): ?string
     {
         if ($hp === null) return null;
@@ -23,17 +25,14 @@ class PenyewaController extends Controller
         $hp = trim($hp);
         if ($hp === '') return null;
 
-        // Ambil angka saja
         $hp = preg_replace('/\D+/', '', $hp);
 
         if ($hp === '') return null;
 
-        // Jika diawali 62 -> ubah jadi 0
         if (substr($hp, 0, 2) === '62') {
             $hp = '0' . substr($hp, 2);
         }
 
-        // Kalau sudah 08 biarkan
         return $hp;
     }
 

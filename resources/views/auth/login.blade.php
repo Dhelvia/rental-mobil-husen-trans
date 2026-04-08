@@ -23,9 +23,15 @@
                 <input type="email" name="email" value="{{ old('email') }}" placeholder="Masukkan email" required>
             </div>
 
-            <div>
+            <div style="position: relative;">
                 <label>Password</label>
-                <input type="password" name="password" placeholder="Masukkan password" required>
+                <input type="password" id="password" name="password" placeholder="Masukkan password" required>
+
+                <!-- ICON MATA -->
+                <span onclick="togglePassword()" 
+                      style="position:absolute; right:10px; top:38px; cursor:pointer;">
+                    👁️
+                </span>
             </div>
 
             <div class="baris-ingat">
@@ -44,5 +50,18 @@
             <button class="btn-login-full" type="submit">Masuk</button>
         </form>
     </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        function togglePassword() {
+            const password = document.getElementById("password");
+
+            if (password.type === "password") {
+                password.type = "text";
+            } else {
+                password.type = "password";
+            }
+        }
+    </script>
 </body>
 </html>
