@@ -3,6 +3,12 @@
 @section('isi')
     <div class="judul-halaman">Laporan</div>
 
+    <div style="margin: 10px 0 14px 0;">
+        <button type="button" class="btn-cetak-pdf" onclick="bukaModal('modalPdf')">
+            + Cetak PDF
+        </button>
+    </div>
+
     @if(session('sukses'))
         <div class="alert-sukses">{{ session('sukses') }}</div>
     @endif
@@ -12,7 +18,6 @@
             <div class="kartu-judul">Total Pemasukan</div>
             <div class="kartu-angka">Rp {{ number_format($totalPemasukan,0,',','.') }}</div>
 
-            {{-- tombol +pengeluaran di bawah kotak pemasukan --}}
             <div style="margin-top:12px;">
                 <button class="btn-kecil btn-pengeluaran" data-id="{{ $laporans->first()?->id ?? '' }}"
                         style="opacity: {{ $laporans->count() ? '1' : '.5' }};"
@@ -36,9 +41,7 @@
         </div>
     </div>
 
-    {{-- WRAP 2 KOTAK: PEMASUKAN & PENGELUARAN (BERSAMPINGAN) --}}
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px;">
-        {{-- KOTAK PEMASUKAN --}}
         <div class="kartu-form">
             <div class="judul-seksi" style="font-size:18px;">Data Pemasukan</div>
             <div class="tabel-responsive">
@@ -86,7 +89,6 @@
             </div>
         </div>
 
-        {{-- KOTAK PENGELUARAN --}}
         <div class="kartu-form">
             <div class="judul-seksi" style="font-size:18px;">Data Pengeluaran</div>
             <div class="tabel-responsive">
@@ -141,7 +143,31 @@
         </div>
     </div>
 
-    {{-- MODAL EDIT LAPORAN (PEMASUKAN) --}}
+    {{-- MODAL PDF --}}
+    <div class="modal" id="modalPdf">
+        <div class="modal-konten modal-lebar">
+            <div class="modal-judul">Jadikan PDF</div>
+
+            <form method="GET" action="{{ route('laporan.pdf') }}" class="form-modal-grid" target="_blank">
+                <div class="field">
+                    <label>Tanggal Awal</label>
+                    <input type="date" name="tanggal_awal" required>
+                </div>
+
+                <div class="field">
+                    <label>Tanggal Akhir</label>
+                    <input type="date" name="tanggal_akhir" required>
+                </div>
+
+                <div class="modal-baris">
+                    <button type="button" class="btn-hapus" onclick="tutupModal('modalPdf')">Tutup</button>
+                    <button type="submit" class="btn-primary">Download PDF</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {{-- MODAL EDIT LAPORAN --}}
     <div class="modal" id="modalEditLaporan">
         <div class="modal-konten modal-lebar">
             <div class="modal-judul">Edit Pemasukan</div>
@@ -239,12 +265,27 @@
         </div>
     </div>
 
-    {{-- responsive 2 kolom jadi 1 kolom --}}
     <style>
+        .btn-cetak-pdf{
+            background: linear-gradient(135deg, #4f7cff, #2d5bff);
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            padding: 12px 20px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(45, 91, 255, 0.18);
+            transition: all 0.2s ease;
+        }
+
+        .btn-cetak-pdf:hover{
+            transform: translateY(-1px);
+            opacity: .95;
+        }
+
         @media (max-width: 980px){
             .laporan-grid-dua{grid-template-columns:1fr !important;}
         }
     </style>
 @endsection
-
-

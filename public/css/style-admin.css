@@ -509,3 +509,20 @@ select{
         padding-top:50px;
     }
 }
+.btn-biru {
+    background: linear-gradient(135deg, #4f7cff, #2d5bff);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.btn-biru:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}

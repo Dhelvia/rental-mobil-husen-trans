@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Mobil;
 use App\Models\Transaksi;
+use App\Models\Penyewa;
 
 class BookingController extends Controller
 {
@@ -34,7 +35,7 @@ class BookingController extends Controller
             'tanggal_ambil.after_or_equal' => 'Tanggal ambil tidak boleh sebelum tanggal booking!',
         ]);
 
-        Transaksi::create([
+        $transaksi = Transaksi::create([
             'mobil_id' => $mobil->id,
 
             'nama_customer' => $request->nama_customer,
@@ -56,6 +57,18 @@ class BookingController extends Controller
             'status' => 'booking',
         ]);
 
-        return redirect()->route('transaksi.index')->with('sukses', 'Booking berhasil disimpan dan masuk transaksi');
+        Penyewa::firstOrCreate(
+            ['no_hp' => $request->no_hp_customer],
+            [
+                'nama' => $request->nama_customer,
+                'no_ktp' => $request->no_ktp,
+                'merk_motor' => $request->merk_motor,
+                'plat_nomor' => $request->plat_motor_jaminan,
+                'alamat' => $request->alamat,
+                'keterangan' => 'lancar',
+            ]
+        );
+
+        return redirect()->route('transaksi.index')->with('sukses', 'Booking berhasil disimpan dan data penyewa langsung masuk');
     }
 }

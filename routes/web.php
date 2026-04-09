@@ -50,7 +50,8 @@ Route::middleware('admin')->group(function () {
     /// Laporan (pemasukan & pengeluaran)
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::post('/laporan/{laporan}/pengeluaran', [LaporanController::class, 'tambahPengeluaran'])->name('laporan.pengeluaran');
-
+    Route::get('/laporan/pdf', [LaporanController::class, 'pdf'])->name('laporan.pdf');
+    
     // edit/hapus pemasukan (laporan)
     Route::post('/laporan/{laporan}/update', [LaporanController::class, 'update'])->name('laporan.update');
     Route::post('/laporan/{laporan}/hapus', [LaporanController::class, 'hapus'])->name('laporan.hapus');

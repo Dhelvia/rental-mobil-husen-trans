@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Laporan;
 use App\Models\Pengeluaran;
 use App\Models\Transaksi;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class LaporanController extends Controller
 {
@@ -38,6 +39,49 @@ class LaporanController extends Controller
         return view('laporan.index', compact(
             'laporans', 'pengeluarans', 'totalPemasukan', 'totalPengeluaran', 'penghasilanAkhir'
         ));
+    }
+
+    public function pdf(Request $request)
+    {
+        $request->validate([
+            'tanggal_awal' => 'required|date',
+            'tanggal_akhir' => 'required|date|after_or_equal:tanggal_awal',
+        ], [
+            'tanggal_awal.required' => 'Tanggal awal wajib diisi',
+            'tanggal_akhir.required' => 'Tanggal akhir wajib diisi',
+            'tanggal_akhir.after_or_equal' => 'Tanggal akhir tidak boleh sebelum tanggal awal',
+        ]);
+
+        $tanggalAwal = $request->tanggal_awal;
+        $tanggalAkhir = $request->tanggal_akhir;
+
+        $laporans = Laporan::with('pengeluarans')
+            ->whereDate('tanggal_ambil', '>=', $tanggalAwal)
+            ->whereDate('tanggal_ambil', '<=', $tanggalAkhir)
+            ->latest()
+            ->get();
+
+        $pengeluarans = Pengeluaran::with('laporan')
+            ->whereDate('created_at', '>=', $tanggalAwal)
+            ->whereDate('created_at', '<=', $tanggalAkhir)
+            ->latest()
+            ->get();
+
+        $totalPemasukan = (int) $laporans->sum('total_pemasukan');
+        $totalPengeluaran = (int) $pengeluarans->sum('total_pengeluaran');
+        $penghasilanAkhir = $totalPemasukan - $totalPengeluaran;
+
+        $pdf = Pdf::loadView('laporan.pdf', compact(
+            'laporans',
+            'pengeluarans',
+            'totalPemasukan',
+            'totalPengeluaran',
+            'penghasilanAkhir',
+            'tanggalAwal',
+            'tanggalAkhir'
+        ))->setPaper('a4', 'portrait');
+
+        return $pdf->download('laporan-' . $tanggalAwal . '-sampai-' . $tanggalAkhir . '.pdf');
     }
 
     public function update(Request $request, Laporan $laporan)
