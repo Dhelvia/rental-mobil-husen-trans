@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
             [
                 'nama' => 'Admin Husen Trans',
                 'password' => Hash::make('password123'),
-                'no_hp' => '08xxxxxxxxxx',
+            
             ]
         );
     }
