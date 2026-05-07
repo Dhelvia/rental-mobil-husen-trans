@@ -21,7 +21,7 @@ class KasLaka extends Model
     protected $casts = [
         'tanggal' => 'date',
         'nominal' => 'decimal:2',
-        'foto' => 'array', // ✅ json -> array otomatis
+        'foto' => 'array', 
     ];
 
     public function transaksi()

@@ -9,18 +9,22 @@ use App\Models\Penyewa;
 
 class BookingController extends Controller
 {
-    public function create(Mobil $mobil)
-    {
-        return view('booking.create', compact('mobil'));
-    }
+    // tampil form booking
+    public function create()
+{
+    $mobils = Mobil::orderBy('nama_mobil', 'asc')->get();
 
-    public function store(Request $request, Mobil $mobil)
+    return view('booking.create', compact('mobils'));
+}
+
+    // simpan booking
+    public function store(Request $request)
     {
         $request->validate([
+            'mobil_id' => 'required|exists:mobils,id',
             'nama_customer' => 'required',
             'no_hp_customer' => 'required',
 
-            // ✅ FIX VALIDASI TANGGAL
             'tanggal_booking' => 'required|date|after_or_equal:today',
             'tanggal_ambil' => 'nullable|date|after_or_equal:tanggal_booking',
 
@@ -35,8 +39,8 @@ class BookingController extends Controller
             'tanggal_ambil.after_or_equal' => 'Tanggal ambil tidak boleh sebelum tanggal booking!',
         ]);
 
-        $transaksi = Transaksi::create([
-            'mobil_id' => $mobil->id,
+        Transaksi::create([
+            'mobil_id' => $request->mobil_id,
 
             'nama_customer' => $request->nama_customer,
             'no_hp_customer' => $request->no_hp_customer,
@@ -54,6 +58,7 @@ class BookingController extends Controller
             'biaya_sewa' => $request->biaya_sewa,
             'keterangan' => $request->keterangan,
             'tujuan' => $request->tujuan,
+
             'status' => 'booking',
         ]);
 
@@ -69,6 +74,8 @@ class BookingController extends Controller
             ]
         );
 
-        return redirect()->route('transaksi.index')->with('sukses', 'Booking berhasil disimpan dan data penyewa langsung masuk');
+        return redirect()
+            ->route('transaksi.index')
+            ->with('sukses', 'Booking berhasil disimpan');
     }
 }

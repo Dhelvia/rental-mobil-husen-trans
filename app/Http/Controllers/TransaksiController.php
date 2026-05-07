@@ -28,7 +28,7 @@ class TransaksiController extends Controller
 
         if ($statusBaru === 'selesai') {
 
-            // ✅ CEK LAPORAN BIAR GA DOUBLE
+            // CEK LAPORAN BIAR GA DOUBLE
             $sudahAda = Laporan::where('transaksi_id', $transaksi->id)->exists();
 
             if (!$sudahAda) {
@@ -41,7 +41,6 @@ class TransaksiController extends Controller
                 ]);
             }
 
-            // ✅ FIX UTAMA: ANTI DUPLIKAT PENYEWA
             Penyewa::firstOrCreate(
                 ['no_hp' => $transaksi->no_hp_customer], // kunci unik
                 [
@@ -54,7 +53,7 @@ class TransaksiController extends Controller
                 ]
             );
 
-            // ✅ mobil kembali tersedia
+            // mobil kembali tersedia
             $transaksi->mobil->update(['tersedia' => true]);
         }
 

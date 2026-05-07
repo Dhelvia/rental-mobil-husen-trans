@@ -37,7 +37,7 @@ class AuthController extends Controller
         if ($request->filled('ingat_saya')) {
             Cookie::queue('ingat_admin', $admin->id, 60 * 24 * 30);
         } else {
-            // kalau tidak centang, pastikan cookie lama dihapus biar tidak “nempel”
+           
             Cookie::queue(Cookie::forget('ingat_admin'));
         }
 

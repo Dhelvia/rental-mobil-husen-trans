@@ -9,7 +9,7 @@ class Laporan extends Model
     protected $table = 'laporans';
 
     protected $fillable = [
-        'transaksi_id', // ✅ TAMBAHAN
+        'transaksi_id', // 
         'nama_customer',
         'tanggal_ambil',
         'durasi_sewa',

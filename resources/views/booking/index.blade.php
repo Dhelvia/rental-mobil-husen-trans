@@ -10,73 +10,36 @@
 
         <div class="grid-form-2">
 
-            {{-- PILIH MOBIL --}}
-            <div>
-                <label>Pilih Mobil</label>
-
-                <select name="mobil_id" id="mobilSelect" required>
-                    <option value="">-- Pilih Mobil --</option>
-
-                    @foreach($mobils as $mobil)
-                        <option
-                            value="{{ $mobil->id }}"
-                            data-plat="{{ $mobil->plat }}"
-                            data-nama="{{ $mobil->nama_mobil }}"
-                            data-transmisi="{{ $mobil->transmisi }}"
-                        >
-                            {{ $mobil->nama_mobil }} - {{ $mobil->plat }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div></div>
-
-            {{-- CUSTOMER --}}
             <div>
                 <label>Nama Customer</label>
-                <input type="text"
-                       name="nama_customer"
-                       value="{{ old('nama_customer') }}">
+                <input type="text" name="nama_customer" value="{{ old('nama_customer') }}">
             </div>
 
             <div>
                 <label>No HP Customer</label>
-                <input type="text"
-                       name="no_hp_customer"
-                       value="{{ old('no_hp_customer') }}">
+                <input type="text" name="no_hp_customer" value="{{ old('no_hp_customer') }}">
             </div>
 
-            {{-- JAMINAN --}}
             <div>
                 <label>Jaminan - No KTP</label>
-                <input type="text"
-                       name="no_ktp"
-                       value="{{ old('no_ktp') }}">
+                <input type="text" name="no_ktp" value="{{ old('no_ktp') }}">
             </div>
 
             <div>
                 <label>Jaminan - Alamat</label>
-                <input type="text"
-                       name="alamat"
-                       value="{{ old('alamat') }}">
+                <input type="text" name="alamat" value="{{ old('alamat') }}">
             </div>
 
             <div>
                 <label>Jaminan - Plat Motor</label>
-                <input type="text"
-                       name="plat_motor_jaminan"
-                       value="{{ old('plat_motor_jaminan') }}">
+                <input type="text" name="plat_motor_jaminan" value="{{ old('plat_motor_jaminan') }}">
             </div>
 
             <div>
                 <label>Jaminan - Merk Motor</label>
-                <input type="text"
-                       name="merk_motor"
-                       value="{{ old('merk_motor') }}">
+                <input type="text" name="merk_motor" value="{{ old('merk_motor') }}">
             </div>
 
-            {{-- DURASI --}}
             <div>
                 <label>Durasi Sewa</label>
                 <input type="text"
@@ -92,7 +55,6 @@
                        value="{{ old('jam_ambil') }}">
             </div>
 
-            {{-- TANGGAL --}}
             <div>
                 <label>Tanggal Booking</label>
                 <input type="date"
@@ -109,22 +71,6 @@
                        min="{{ date('Y-m-d') }}">
             </div>
 
-            {{-- INFO MOBIL --}}
-            <div>
-                <label>Plat Mobil</label>
-                <input type="text"
-                       id="platMobil"
-                       readonly>
-            </div>
-
-            <div>
-                <label>Jenis Mobil</label>
-                <input type="text"
-                       id="jenisMobil"
-                       readonly>
-            </div>
-
-            {{-- BIAYA --}}
             <div>
                 <label>Biaya Sewa</label>
                 <input type="number"
@@ -132,20 +78,18 @@
                        value="{{ old('biaya_sewa', 0) }}">
             </div>
 
-            <div>
+            <<div>
     <label>Keterangan</label>
 
     <select name="keterangan">
         <option value="antar rental">antar rental</option>
-        <option value="pribadi" selected>pribadi</option>
+        <option value="pribadi">pribadi</option>
         <option value="plus driver">plus driver</option>
     </select>
 </div>
 
-            {{-- TUJUAN --}}
             <div style="grid-column: 1 / -1;">
                 <label>Tujuan</label>
-
                 <input type="text"
                        name="tujuan"
                        value="{{ old('tujuan') }}"
@@ -154,7 +98,6 @@
 
         </div>
 
-        {{-- ERROR --}}
         @if($errors->any())
             <div class="alert-gagal" style="margin-top:10px;">
                 @foreach($errors->all() as $e)
@@ -173,23 +116,3 @@
 
 </div>
 @endsection
-
-@push('skrip')
-<script>
-const mobilSelect = document.getElementById('mobilSelect');
-const platMobil = document.getElementById('platMobil');
-const jenisMobil = document.getElementById('jenisMobil');
-
-mobilSelect.addEventListener('change', function () {
-
-    const selected = this.options[this.selectedIndex];
-
-    platMobil.value = selected.dataset.plat || '';
-
-    jenisMobil.value =
-        (selected.dataset.nama || '') +
-        ' - ' +
-        (selected.dataset.transmisi || '');
-});
-</script>
-@endpush

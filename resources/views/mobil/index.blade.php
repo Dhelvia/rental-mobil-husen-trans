@@ -34,28 +34,7 @@
                     </div>
 
                     <div class="baris-tombol">
-                        <a class="btn-book" href="{{ route('booking.create', $m->id) }}">Book →</a>
-                    </div>
-
-                    <div class="baris-tombol">
                         <a class="btn-kecil" href="{{ route('mobil.edit', $m->id) }}">Edit</a>
-
-                        <form method="POST" action="{{ route('mobil.destroy', $m->id) }}">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn-hapus" type="submit" onclick="return confirm('Yakin hapus mobil?')">Hapus</button>
-                        </form>
-                    </div>
-
-                    {{-- 🔥 LOGIKA FINAL SESUAI KEBUTUHAN --}}
-                    @php
-                        $dipakai = $m->transaksis
-                            ->whereIn('status', ['booking','diambil'])
-                            ->count();
-                    @endphp
-
-                    <div class="badge-tersedia {{ $dipakai ? 'merah' : 'hijau' }}">
-                        {{ $dipakai ? 'Tidak Tersedia' : 'Tersedia' }}
                     </div>
 
                 </div>

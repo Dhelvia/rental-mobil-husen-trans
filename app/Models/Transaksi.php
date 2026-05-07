@@ -15,7 +15,7 @@ class Transaksi extends Model
         'lama_sewa','tanggal_booking','tanggal_ambil','jam_ambil',
         'durasi_sewa','biaya_sewa',
         'keterangan',
-        'tujuan',      // <-- TAMBAH INI
+        'tujuan',      
         'status'
     ];
 

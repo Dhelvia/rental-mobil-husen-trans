@@ -8,10 +8,10 @@ body{margin:0;background:#f3f6ff;color:#1b1b1b}
     padding:18px;display:flex;flex-direction:column;gap:14px
 }
 
-/* ✅ DIUBAH: gap biar teks ga mepet */
+/*  gap biar teks ga mepet */
 .logo{display:flex;gap:14px;align-items:center;text-decoration:none}
 
-/* ✅ DIUBAH: ukuran logo biar gede + overflow hidden */
+/* ukuran logo biar gede + overflow hidden */
 .logo-bulat{
     width:72px;height:72px;border-radius:18px;
     background:#2f6dff;color:#fff;display:flex;align-items:center;justify-content:center;
@@ -19,7 +19,7 @@ body{margin:0;background:#f3f6ff;color:#1b1b1b}
     overflow:hidden
 }
 
-/* ✅ DITAMBAH: biar foto nutup penuh */
+/* biar foto nutup penuh */
 .logo-bulat img{
     width:100%;
     height:100%;
@@ -77,13 +77,10 @@ body{margin:0;background:#f3f6ff;color:#1b1b1b}
     box-shadow:0 8px 20px rgba(18,38,63,.05)
 }
 
-/* =========================
-   ✅ PERUBAHAN HANYA DI SINI
-   ========================= */
 .gambar-mobil{
   background:#f1f4ff;
   width:100%;
-  aspect-ratio: 4 / 3;   /* ✅ paksa 4:3 */
+  aspect-ratio: 4 / 3;   
   overflow:hidden;
   display:block;
 }
@@ -91,12 +88,10 @@ body{margin:0;background:#f3f6ff;color:#1b1b1b}
 .gambar-mobil img{
   width:100%;
   height:100%;
-  object-fit:cover;      /* ✅ full (bisa crop sedikit) */
+  object-fit:cover;      
   display:block;
 }
-/* =========================
-   ✅ SELESAI PERUBAHAN
-   ========================= */
+
 
 .placeholder-gambar{color:#778}
 
@@ -400,11 +395,8 @@ select{
   border:1px solid #dfe8ff;
   width:100%;
 }
-/* =========================
-   FIX TOMBOL MODAL PENYEWA
-   ========================= */
 
-/* semua tombol di dalam modal */
+/* semua tombol modal penyewa */
 .modal button{
   padding:12px 18px;
   border-radius:14px;
@@ -525,4 +517,107 @@ select{
 .btn-biru:hover {
     opacity: 0.9;
     transform: translateY(-1px);
+}
+
+.input-bulat{
+  padding:12px 16px;
+  border-radius:18px;
+  border:1px solid #dfe8ff;
+  background:#f3f6ff;
+  outline:none;
+  font-size:14px;
+  width:250px;
+}
+/* =========================
+   POPUP KALENDER MODERN
+   ========================= */
+
+#modalKalender .modal-konten{
+    width:1200px;
+    max-width:95vw;
+    border-radius:28px;
+    padding:28px;
+    background:#fff;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+#modalKalender .modal-judul{
+    font-size:36px;
+    font-weight:900;
+    color:#111827;
+    margin-bottom:22px;
+}
+
+.tabel-booking{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+    overflow:hidden;
+    border-radius:18px;
+}
+
+.tabel-booking thead th{
+    background:#f3f6ff;
+    color:#1d2b4a;
+    font-size:15px;
+    font-weight:900;
+    padding:18px;
+    text-align:left;
+    border-bottom:2px solid #e4ebff;
+}
+
+.tabel-booking tbody td{
+    padding:18px;
+    background:#fff;
+    border-bottom:1px solid #eef2ff;
+    font-size:15px;
+    color:#334;
+}
+
+.tabel-booking tbody tr:hover td{
+    background:#f9fbff;
+}
+
+.tabel-booking tbody tr:last-child td{
+    border-bottom:none;
+}
+
+/* tombol tutup */
+#modalKalender button{
+    background:#1e3a8a;
+    color:#fff;
+    border:none;
+    padding:12px 22px;
+    border-radius:14px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+#modalKalender button:hover{
+    background:#142b66;
+}
+
+/* scroll kalau tabel panjang */
+#modalKalender .table-wrapper{
+    overflow-x:auto;
+    border-radius:18px;
+}
+
+/* mobile */
+@media(max-width:700px){
+
+    #modalKalender .modal-konten{
+        padding:18px;
+        border-radius:22px;
+    }
+
+    #modalKalender .modal-judul{
+        font-size:24px;
+    }
+
+    .tabel-booking thead th,
+    .tabel-booking tbody td{
+        padding:12px;
+        font-size:13px;
+    }
 }

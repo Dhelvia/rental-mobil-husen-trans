@@ -68,7 +68,7 @@ class KasLakaController extends Controller
             'nominal' => 'required|numeric|min:0',
             'transaksi_id' => 'nullable|integer|exists:transaksis,id',
 
-            // ✅ multi foto: boleh kosong, max 6 file, masing-masing max 3MB
+            // multi foto
             'foto' => 'nullable|array|max:6',
             'foto.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
         ]);
@@ -101,11 +101,11 @@ class KasLakaController extends Controller
             'nominal' => 'required|numeric|min:0',
             'transaksi_id' => 'nullable|integer|exists:transaksis,id',
 
-            // ✅ upload foto baru opsional saat edit
+            // upload foto baru opsional saat edit
             'foto' => 'nullable|array|max:6',
             'foto.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
 
-            // ✅ jika centang hapus foto lama
+            // jika centang hapus foto lama
             'hapus_foto_lama' => 'nullable|in:1',
         ]);
 
@@ -127,7 +127,6 @@ class KasLakaController extends Controller
         // upload foto baru (jika ada)
         $fotoBaru = $this->storePhotos($request);
 
-        // strategi: foto lama tetap, foto baru ditambahkan (append)
         $gabung = array_values(array_filter(array_merge($fotoLama, $fotoBaru)));
 
         $kasLaka->update([

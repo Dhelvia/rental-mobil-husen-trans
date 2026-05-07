@@ -12,7 +12,7 @@ class LaporanController extends Controller
 {
     public function index()
     {
-        // 🔥 AUTO SYNC DATA LAMA
+        //  AUTO SYNC DATA LAMA
         $transaksiSelesai = Transaksi::where('status', 'selesai')->get();
 
         foreach ($transaksiSelesai as $t) {

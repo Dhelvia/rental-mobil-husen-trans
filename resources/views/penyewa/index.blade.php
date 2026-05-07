@@ -10,7 +10,7 @@
     {{-- SEARCH --}}
     <form method="GET" action="{{ route('penyewa.index') }}" style="margin-bottom:15px;">
         <input type="text" name="keyword" placeholder="Cari nama penyewa..."
-               value="{{ $keyword ?? '' }}" style="padding:6px; width:250px;">
+               value="{{ $keyword ?? '' }}" class="input-bulat">
         
         <button type="submit" class="btn-primary">Cari</button>
 
@@ -37,7 +37,6 @@
                 <tbody>
                 @forelse($penyewas as $p)
                     <tr>
-                        {{-- 🔥 NAMA + HIGHLIGHT AMAN --}}
                         <td>
                             @php
                                 $nama = strtoupper($p->nama);
@@ -154,7 +153,6 @@
         </div>
     </div>
 
-    {{-- 🔥 FIX EVENT CLICK (ANTI ERROR) --}}
     <script>
       function bukaModal(id){ document.getElementById(id).classList.add('tampil'); }
       function tutupModal(id){ document.getElementById(id).classList.remove('tampil'); }
@@ -164,7 +162,7 @@
       });
 
       document.addEventListener('click', function(e){
-        const btn = e.target.closest('.btn-edit-penyewa'); // 🔥 FIX UTAMA
+        const btn = e.target.closest('.btn-edit-penyewa');
 
         if(btn){
           const id = btn.dataset.id;

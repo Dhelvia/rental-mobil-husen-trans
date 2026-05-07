@@ -9,7 +9,7 @@ class MobilController extends Controller
 {
     public function index()
     {
-        // ✅ WAJIB: ambil relasi transaksi
+        
         $mobils = Mobil::with('transaksis')->latest()->get();
         return view('mobil.index', compact('mobils'));
     }

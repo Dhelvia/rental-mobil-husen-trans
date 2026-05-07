@@ -37,7 +37,7 @@ $data = [
         }
 
         $admin->update($data);
-        session(['admin_foto' => $admin->foto]); // TAMBAH INI
+        session(['admin_foto' => $admin->foto]); 
         session(['admin_nama' => $admin->nama]);
 
         return back()->with('sukses', 'Profil berhasil diperbarui');

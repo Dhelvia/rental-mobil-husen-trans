@@ -10,6 +10,7 @@ use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\PenyewaController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\KasLakaController;
+use App\Http\Controllers\KalenderController;
 
 Route::get('/', fn() => redirect()->route('login'));
 
@@ -18,9 +19,10 @@ Route::post('/login', [AuthController::class, 'prosesLogin'])->name('login.prose
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('admin')->group(function () {
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Admin panel (klik logo/teks kiri) -> edit profil
+    // Admin profil
     Route::get('/admin/profil', [AdminProfilController::class, 'edit'])->name('admin.profil');
     Route::post('/admin/profil', [AdminProfilController::class, 'update'])->name('admin.profil.update');
 
@@ -32,9 +34,12 @@ Route::middleware('admin')->group(function () {
     Route::post('/mobil/{mobil}/edit', [MobilController::class, 'update'])->name('mobil.update');
     Route::post('/mobil/{mobil}/hapus', [MobilController::class, 'destroy'])->name('mobil.destroy');
 
-    // Booking dari mobil
-    Route::get('/mobil/{mobil}/booking', [BookingController::class, 'create'])->name('booking.create');
-    Route::post('/mobil/{mobil}/booking', [BookingController::class, 'store'])->name('booking.store');
+    // BOOKING
+    Route::get('/booking', [BookingController::class, 'create'])->name('booking.create');
+    Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
+
+    // Kalender
+    Route::get('/kalender-order', [KalenderController::class, 'index'])->name('kalender.index');
 
     // Transaksi
     Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
@@ -42,24 +47,23 @@ Route::middleware('admin')->group(function () {
     Route::post('/transaksi/{transaksi}/hapus', [TransaksiController::class, 'hapus'])->name('transaksi.hapus');
     Route::post('/transaksi/{transaksi}/update-modal', [TransaksiController::class, 'updateModal'])->name('transaksi.updateModal');
 
-    // Data Penyewa (setelah selesai)
+    // Penyewa
     Route::get('/data-penyewa', [PenyewaController::class, 'index'])->name('penyewa.index');
     Route::post('/data-penyewa/{penyewa}/update', [PenyewaController::class, 'update'])->name('penyewa.update');
     Route::post('/data-penyewa/{penyewa}/hapus', [PenyewaController::class, 'hapus'])->name('penyewa.hapus');
 
-    /// Laporan (pemasukan & pengeluaran)
+    // Laporan
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::post('/laporan/{laporan}/pengeluaran', [LaporanController::class, 'tambahPengeluaran'])->name('laporan.pengeluaran');
     Route::get('/laporan/pdf', [LaporanController::class, 'pdf'])->name('laporan.pdf');
-    
-    // edit/hapus pemasukan (laporan)
+
     Route::post('/laporan/{laporan}/update', [LaporanController::class, 'update'])->name('laporan.update');
     Route::post('/laporan/{laporan}/hapus', [LaporanController::class, 'hapus'])->name('laporan.hapus');
 
-    // TAMBAH: edit/hapus pengeluaran
     Route::post('/pengeluaran/{pengeluaran}/update', [LaporanController::class, 'updatePengeluaran'])->name('pengeluaran.update');
     Route::post('/pengeluaran/{pengeluaran}/hapus', [LaporanController::class, 'hapusPengeluaran'])->name('pengeluaran.hapus');
 
+    // Kas Laka
     Route::get('/kas-laka', [KasLakaController::class, 'index'])->name('kaslaka.index');
     Route::post('/kas-laka', [KasLakaController::class, 'store'])->name('kaslaka.store');
     Route::post('/kas-laka/{kasLaka}/update', [KasLakaController::class, 'update'])->name('kaslaka.update');

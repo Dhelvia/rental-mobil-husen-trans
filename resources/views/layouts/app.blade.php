@@ -47,13 +47,48 @@
         </a>
 
         <nav class="menu">
-            <a class="menu-item {{ request()->is('dashboard') ? 'aktif' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
-            <a class="menu-item {{ request()->is('mobil*') ? 'aktif' : '' }}" href="{{ route('mobil.index') }}">Data Mobil</a>
-            <a class="menu-item {{ request()->is('transaksi*') ? 'aktif' : '' }}" href="{{ route('transaksi.index') }}">Transaksi</a>
-            <a class="menu-item {{ request()->is('data-penyewa*') ? 'aktif' : '' }}" href="{{ route('penyewa.index') }}">Data Penyewa</a>
-            <a class="menu-item {{ request()->is('laporan*') ? 'aktif' : '' }}" href="{{ route('laporan.index') }}">Laporan</a>
-            <a class="menu-item {{ request()->is('kas-laka*') ? 'aktif' : '' }}" href="{{ route('kaslaka.index') }}">Kas Laka</a>
-        </nav>
+
+    <a class="menu-item {{ request()->is('dashboard') ? 'aktif' : '' }}"
+       href="{{ route('dashboard') }}">
+       Dashboard
+    </a>
+
+    <a class="menu-item {{ request()->is('mobil*') ? 'aktif' : '' }}"
+       href="{{ route('mobil.index') }}">
+       Data Mobil
+    </a>
+
+    <a class="menu-item {{ request()->is('booking*') ? 'aktif' : '' }}"
+   href="{{ route('booking.create') }}">
+   Booking
+</a>
+
+    <a class="menu-item {{ request()->is('kalender-order*') ? 'aktif' : '' }}"
+       href="{{ route('kalender.index') }}">
+       Kalender Order
+    </a>
+
+    <a class="menu-item {{ request()->is('transaksi*') ? 'aktif' : '' }}"
+       href="{{ route('transaksi.index') }}">
+       Transaksi
+    </a>
+
+    <a class="menu-item {{ request()->is('data-penyewa*') ? 'aktif' : '' }}"
+       href="{{ route('penyewa.index') }}">
+       Data Penyewa
+    </a>
+
+    <a class="menu-item {{ request()->is('laporan*') ? 'aktif' : '' }}"
+       href="{{ route('laporan.index') }}">
+       Laporan
+    </a>
+
+    <a class="menu-item {{ request()->is('kas-laka*') ? 'aktif' : '' }}"
+       href="{{ route('kaslaka.index') }}">
+       Kas Laka
+    </a>
+
+</nav>
 
         <form action="{{ route('logout') }}" method="POST" class="logout-form">
             @csrf
